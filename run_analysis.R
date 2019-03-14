@@ -1,7 +1,20 @@
 library(dplyr)
-## run_analysis.R can be run as long as the Samsung data is in the working directory
-## dir_path - path to the unziped data in the working directory
+## run_analysis.R checks:
+## 1. if there is directory ./data and creates it if not
+## 2. if there is directory ./data/UCI HAR Dataset/ and download and then unzip
+## dataset if not
+
 dir_path <- "./data/UCI HAR Dataset/"
+fileUrl = "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
+if(!file.exists("./data"))
+{
+    dir.create("./data")
+}
+if (!file.exists(dir_path)) {
+    download.file(fileUrl, "./data/UCI HAR Dataset.zip", method = "curl")
+    unzip("./data/UCI HAR Dataset.zip",exdir="./data")
+}
+
 ## Reads names of the variables in the data set
 data_variables <- read.table(paste0(dir_path, "features.txt"),
                                 col.names = c("Number","Name"))
